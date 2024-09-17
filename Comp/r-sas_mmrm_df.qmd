@@ -5,3 +5,18 @@ execute:
 ---
 
 # R vs SAS Satterthwaite Degrees of Freedom Method
+
+## Introduction of data and notation
+
+
+
+## Basic Model, Estimates, and Hypothesis Test of Contrast
+
+
+## Same as above, but now with tau = 80 and sigma^2 = 0.001
+
+## Unstructured Variance-Covariance Matrix for Data Simulation
+
+## Model with Random Slope and Estimates
+
+## Degrees of Freedom Plot and Differences between the two Procedures
