@@ -11,15 +11,15 @@ execute:
 The dataset is supposed to mimic a stage 3 clinical trial on Alzheimer's disease, with 6 observations per patient each taken during visits at 0, 6, 12, 18, 24 and 36 months. The measurement taken during each visit is the result from an ADAS-Cog (Alzheimer's Disease Assessment Scale - Cognitive Section) test, which is a scale ranging from 0 to 85 testing the memory and mental capabilities of the patient. Half of the patients are in an active treatment group ($act$) while the rest are in a placebo treatment group ($pbo$). The code used to generate the dataset is seen below:
 
 ```{r}
-simulate_trial <- function(n_arm = 500, 
-                           M = c(0, 6, 12, 18, 24, 36), 
-                           drop_out = 0,
-                           mean_pbo, 
-                           mean_act, 
-                           cov_sqrt) {
+simulate_trial <- function(n_arm = 500, # Number of patients per group
+                           M = c(0, 6, 12, 18, 24, 36), # Months in which an observation is to be taken
+                           drop_out = 0, # Drop out factor
+                           mean_pbo, # Mean values for visits in the placebo group
+                           mean_act, # Mean values for visits in the active group
+                           cov_sqrt) { #Cholesky Decomposition of Variance-Covariance matrix
   
   # Simulate data
-  m <- length(M)
+  m <- length(M) # Number of measurements per patient
   y_pbo <- cov_sqrt %*% matrix(rnorm(m * n_arm), nrow = m) + mean_pbo
   y_act <- cov_sqrt %*% matrix(rnorm(m * n_arm), nrow = m) + mean_act
   
@@ -47,7 +47,6 @@ simulate_trial <- function(n_arm = 500,
 }
 
 ```
-
 
 ## Basic Model, Estimates, and Hypothesis Test of Contrast
 
