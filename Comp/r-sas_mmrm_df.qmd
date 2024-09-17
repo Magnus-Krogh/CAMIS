@@ -1,1 +1,11 @@
+------------------------------------------------------------------------
 
+title: "R vs SAS Satterthwaite Degrees of Freedom Method"
+
+execute:
+
+eval: false
+
+------------------------------------------------------------------------
+
+# R vs SAS Satterthwaite Degrees of Freedom Method
