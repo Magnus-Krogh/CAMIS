@@ -50,22 +50,36 @@ simulate_trial <- function(n_arm = 500, # Number of patients per group
 
 ```
 
-An example of a dataset can be seen in the table below:
+Running below creates an example of a simulated dataset seen below the code:
 
-| id         | visit | M   | y       | act_vis |
-|------------|-------|-----|---------|---------|
-| 1          | 1     | 0   | 11.5353 | pho.0   |
-| 1          | 2     | 6   | 11.0563 | pho.6   |
-| 2          | 1     | 0   | 30.4709 | pho.0   |
-| 2          | 2     | 6   | 28.4217 | pho.6   |
-| 2          | 3     | 12  | 17.0752 | pho.12  |
-| 2          | 4     | 18  | 31.7247 | pho.18  |
-| 2          | 5     | 24  | 24.3923 | pho.24  |
-| 2          | 6     | 36  | 33.818  | pho.36  |
-| 3          | 1     | 0   | 21.6565 | pho.0   |
-| 3          | 2     | 6   | 31.918  | pho.6   |
-| $$\vdots$$ |       |     |         |         |
-| 1000       | 1     | 0   | 28.9886 | pho.0   |
+```{r}
+mean_pbo <- c(19.6, 20.5, 20.9, 22.7, 23.8, 27.4) #Mean values of placebo group
+mean_act <- approx(x = c(0, 6, 12, 18, 24, 36), 
+                   y = mean_pbo,
+                   xout = 0.8 * c(0, 6, 12, 18, 24, 36))$y #Mean values of active group
+cov_adni2 <- matrix(1,6,6) * 67 + diag(6) * 30 # Variance-Covariance matrix
+cov_sqrt2 <- t(chol(cov_adni2)) #Cholesky decomposition of Variance-Covaraince matrix
+set.seed(131)
+dat <- simulate_trial(n_arm = 500, drop_out = 0.1,
+                      mean_pbo = mean_pbo,
+                      mean_act = mean_act,
+                      cov_sqrt = cov_sqrt2)
+```
+
+| id         | visit      | M          | y          | act_vis    |
+|------------|------------|------------|------------|------------|
+| 1          | 1          | 0          | 11.5353    | pbo.0      |
+| 1          | 2          | 6          | 11.0563    | pbo.6      |
+| 2          | 1          | 0          | 30.4709    | pbo.0      |
+| 2          | 2          | 6          | 28.4217    | pbo.6      |
+| 2          | 3          | 12         | 17.0752    | pbo.12     |
+| 2          | 4          | 18         | 31.7247    | pbo.18     |
+| 2          | 5          | 24         | 24.3923    | pbo.24     |
+| 2          | 6          | 36         | 33.818     | pbo.36     |
+| 3          | 1          | 0          | 21.6565    | pbo.0      |
+| 3          | 2          | 6          | 31.918     | pbo.6      |
+| $$\vdots$$ | $$\vdots$$ | $$\vdots$$ | $$\vdots$$ | $$\vdots$$ |
+| 1000       | 1          | 0          | 28.9886    | pbo.0      |
 
 ## Basic Model, Estimates, and Hypothesis Test of Contrast
 
