@@ -50,6 +50,23 @@ simulate_trial <- function(n_arm = 500, # Number of patients per group
 
 ```
 
+An example of a dataset can be seen in the table below:
+
+| id         | visit | M   | y       | act_vis |
+|------------|-------|-----|---------|---------|
+| 1          | 1     | 0   | 11.5353 | pho.0   |
+| 1          | 2     | 6   | 11.0563 | pho.6   |
+| 2          | 1     | 0   | 30.4709 | pho.0   |
+| 2          | 2     | 6   | 28.4217 | pho.6   |
+| 2          | 3     | 12  | 17.0752 | pho.12  |
+| 2          | 4     | 18  | 31.7247 | pho.18  |
+| 2          | 5     | 24  | 24.3923 | pho.24  |
+| 2          | 6     | 36  | 33.818  | pho.36  |
+| 3          | 1     | 0   | 21.6565 | pho.0   |
+| 3          | 2     | 6   | 31.918  | pho.6   |
+| $$\vdots$$ |       |     |         |         |
+| 1000       | 1     | 0   | 28.9886 | pho.0   |
+
 ## Basic Model, Estimates, and Hypothesis Test of Contrast
 
 ## Same as above, but now with tau\^2 = 80 and sigma\^2 = 0.001
