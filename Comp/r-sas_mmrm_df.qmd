@@ -8,7 +8,7 @@ execute:
 
 ## Introduction of data and notation
 
-The dataset is supposed to mimic a stage 3 clinical trial on Alzheimer's disease, with 6 observations per patient each taken during visits at 0, 6, 12, 18, 24 and 36 months. The measurement taken during each visit is the result from an ADAS-Cog (Alzheimer's Disease Assessment Scale - Cognitive Section) test, which is a scale ranging from 0 to 85 testing the memory and mental capabilities of the patient. Half of the patients are in an active treatment group ($act$) while the rest are in a placebo treatment group ($pbo$). The data is simulated from a normal distribution with a given mean vector and variance-covariance matrix. The code used to generate the dataset is seen below:
+The dataset is supposed to mimic a stage 3 clinical trial on Alzheimer's disease, with 6 observations per patient each taken during visits at 0, 6, 12, 18, 24 and 36 months. The measurement taken during each visit is the result from an ADAS-Cog (Alzheimer's Disease Assessment Scale - Cognitive Section) test, which is a scale ranging from 0 to 85 testing the memory and mental capabilities of the patient. Half of the patients are in an active treatment group ($act$) while the rest are in a placebo treatment group ($pbo$). A drop out factor is also employed, to resemble patients leaving the study. The data is simulated from a normal distribution with a given mean vector and variance-covariance matrix. The code used to generate the dataset is seen below:
 
 ```{r}
 simulate_trial <- function(n_arm = 500, # Number of patients per group
@@ -81,7 +81,30 @@ dat <- simulate_trial(n_arm = 500, drop_out = 0.1,
 | $$\vdots$$ | $$\vdots$$ | $$\vdots$$ | $$\vdots$$ | $$\vdots$$ |
 | 1000       | 1          | 0          | 28.9886    | pbo.0      |
 
+The datasets will be simulated in R and then used by both LMER in R and PROC MIXED in SAS. The mean vectors for the groups are given by $$\mu_{\text{pbo}} = \begin{bmatrix} 19.6 \\ 20.5 \\ 20.6 \\ 22.7 \\ 23.8 \\ 27.4 \end{bmatrix} \text{ and } \mu_{\text{act}} = \begin{bmatrix} 19.6 \\ 20.32 \\ 20.74 \\ 21.62 \\ 22.92 \\ 25.24\end{bmatrix}.$$
+
 ## Basic Model, Estimates, and Hypothesis Test of Contrast
+
+First a simulated dataset constructed from a simple Variance-Covariance matrix given by $$\Sigma = 67 \cdot J_6 + 30 \cdot I_6,$$ where $J_6$ is the 6 times 6 matrix with 1 in every entry, and $I_6$ is the 6 times 6 identity matrix. The model used for this dataset will consist of a parameter for each mean value and a random intercept. Code used to estimate the parameters are given below
+
+```{r}
+set.seed(129)
+dat <- simulate_trial(n_arm = 500, drop_out = 0.2,
+                      mean_pbo = mean_pbo,
+                      mean_act = mean_act,
+                      cov_sqrt = cov_sqrt2)
+lmertest_model <- lmerTest::lmer(y ~ 0 + act_vis + (1|id), data = dat, REML = TRUE)
+summary(lmertest_model)
+```
+
+``` sas
+proc mixed data=sim_data method=reml;
+   class id act_vis;
+   model y = act_vis / NOINT solution;
+   random intercept / G type=un subject=id;
+   ods output FitStatistics = fit;
+run;
+```
 
 ## Same as above, but now with tau\^2 = 80 and sigma\^2 = 0.001
 
