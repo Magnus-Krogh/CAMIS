@@ -106,6 +106,31 @@ proc mixed data=sim_data method=reml;
 run;
 ```
 
+and the parameter estimates are given in the following table:
+
+| Parameter | LMER   | PROC MIXED | Absolute Bias | Relative Bias |
+|-----------|--------|------------|---------------|---------------|
+| pho.0     | 19.847 | 19.847     | 0.247         | 1.26%         |
+| $$        
+ \vdots     
+ $$         | $$     
+             \vdots  
+             $$      | $$         
+                      \vdots      
+                      $$          | $$            
+                                   \vdots         
+                                   $$             | $$            
+                                                   \vdots         
+                                                   $$             |
+| pho.36    | 26.810 | 26.809     | -0.591        | -2.16%        |
+| act.36    | 25.990 | 25.990     | 0.750         | 2.97%         |
+| $         
+ \tau^2     
+ $          | 68.734 | 68.720     | 1.720         | 2.57%         |
+| $         
+ \sigma^2   
+ $          | 30.091 | 30.093     | 0.093         | 0.31%         |
+
 ## Same as above, but now with tau\^2 = 80 and sigma\^2 = 0.001
 
 ## Unstructured Variance-Covariance Matrix for Data Simulation
